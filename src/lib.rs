@@ -196,4 +196,18 @@ mod tests {
         assert_eq!(cache.get(1), None);
         assert_eq!(cache.get(2), None);
     }
+
+    #[test]
+    fn test_lru_with_complex_values() {
+        let mut cache = LruCache::new(2);
+        cache.put("a", vec![1, 2, 3]);
+        cache.put("b", vec![4, 5, 6]);
+        assert_eq!(cache.get("a"), Some(vec![1, 2, 3]));
+        cache.put("c", vec![7, 8, 9]);
+        assert_eq!(cache.get("b"), None);
+        cache.put("d", vec![10, 11, 12]);
+        assert_eq!(cache.get("a"), None);
+        assert_eq!(cache.get("c"), Some(vec![7, 8, 9]));
+        assert_eq!(cache.get("d"), Some(vec![10, 11, 12]));
+    }
 }
