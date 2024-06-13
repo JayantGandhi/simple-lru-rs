@@ -176,4 +176,24 @@ mod tests {
         assert_eq!(cache.get(3), Some(3));
         assert_eq!(cache.get(4), Some(4));
     }
+
+    #[test]
+    fn test_lru_cache_delete() {
+        let mut cache = LruCache::new(2);
+        cache.put(1, 1);
+        cache.put(2, 2);
+        cache.delete(1);
+        assert_eq!(cache.get(1), None);
+        assert_eq!(cache.get(2), Some(2));
+    }
+
+    #[test]
+    fn test_lru_cache_reset() {
+        let mut cache = LruCache::new(2);
+        cache.put(1, 1);
+        cache.put(2, 2);
+        cache.reset();
+        assert_eq!(cache.get(1), None);
+        assert_eq!(cache.get(2), None);
+    }
 }
